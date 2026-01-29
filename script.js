@@ -67,6 +67,16 @@ class EVAPrototype {
         // Add the prompt as a user message
         this.addMessage(promptText, 'user');
         
+    handlePromptClick(btn) {
+        const promptType = btn.dataset.prompt;
+        const promptText = this.getPromptText(promptType);
+        
+        // Clear any existing response chips
+        this.hideResponseChips();
+        
+        // Add the prompt as a user message
+        this.addMessage(promptText, 'user');
+        
         // Generate appropriate response
         setTimeout(() => {
             const response = this.generatePromptResponse(promptType);
@@ -75,19 +85,9 @@ class EVAPrototype {
             // Show response chips if suggested
             if (response.chips) {
                 this.showResponseChips(response.chips);
-            }(promptType);
-        
-        // Add the prompt as a user message
-        this.addMessage(promptText, 'user');
-        
-        // Generate appropriate response
-        setTimeout(() => {
-            const response = this.generatePromptResponse(promptType);
-            this.addMessage(response, 'eva');
-        }, Clear response chips
-        this.hideResponseChips();
-        
-        // 1500);
+            }
+        }, 1500);
+    }
     }
 
     handleNewChat() {
@@ -95,9 +95,14 @@ class EVAPrototype {
         const messages = this.chatContainer.querySelectorAll('.message');
         messages.forEach(message => message.remove());
         
+        // Clear response chips
+        this.hideResponseChips();
+        
         // Reset to initial state
         this.addMessage("Hello! I'm EVA, your Electric Vehicle Assistant. I can help you troubleshoot EV charger issues. I see we're working with customer Michael Rodriguez who has an error code E-204. How can I assist you today?", 'eva', true);
         
+        this.focusInput();
+    }
         this.focusInput();
     }
 
