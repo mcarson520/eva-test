@@ -2,10 +2,6 @@
   "name": "eva-prototype",
   "version": "1.0.0",
   "description": "EVA Customer Service Assistant UI Prototype",
-  "scripts": {
-    "build": "mkdir -p public && cp prototype/* public/",
-    "start": "python -m http.server 8000"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mcarson520/eva-test.git"
