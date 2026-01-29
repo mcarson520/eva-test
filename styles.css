@@ -333,17 +333,50 @@ body {
     border-bottom: 1px solid var(--gray-200);
 }
 
+.prompts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    margin-bottom: 1rem;
+}
+
+.prompts-header:hover {
+    background-color: var(--gray-50);
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+}
+
 .common-prompts h4 {
     color: var(--gray-700);
     font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin: 0;
+}
+
+.toggle-icon {
+    color: var(--gray-500);
+    font-size: 0.875rem;
+    transition: transform 0.2s ease;
+}
+
+.toggle-icon.collapsed {
+    transform: rotate(-90deg);
 }
 
 .prompts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 0.75rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.prompts-grid.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
 }
 
 .prompt-btn {

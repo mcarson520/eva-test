@@ -167,6 +167,22 @@ class EVAPrototype {
     }
 }
 
+// Toggle function for common questions
+function toggleCommonQuestions() {
+    const promptsGrid = document.getElementById('promptsGrid');
+    const toggleIcon = document.getElementById('toggleIcon');
+    
+    if (promptsGrid.classList.contains('hidden')) {
+        promptsGrid.classList.remove('hidden');
+        toggleIcon.textContent = '▼';
+        toggleIcon.classList.remove('collapsed');
+    } else {
+        promptsGrid.classList.add('hidden');
+        toggleIcon.textContent = '▶';
+        toggleIcon.classList.add('collapsed');
+    }
+}
+
 // Initialize the prototype when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new EVAPrototype();

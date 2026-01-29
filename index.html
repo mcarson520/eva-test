@@ -110,8 +110,11 @@
                 </div>
 
                 <div class="common-prompts">
-                    <h4>Common Issues</h4>
-                    <div class="prompts-grid">
+                    <div class="prompts-header" onclick="toggleCommonQuestions()">
+                        <h4>Common Issues</h4>
+                        <span class="toggle-icon" id="toggleIcon">▼</span>
+                    </div>
+                    <div class="prompts-grid" id="promptsGrid">
                         <button class="prompt-btn" data-prompt="charger-not-working">Charger Not Working</button>
                         <button class="prompt-btn" data-prompt="firmware-update">Firmware Issues</button>
                         <button class="prompt-btn" data-prompt="billing-questions">Billing Questions</button>
