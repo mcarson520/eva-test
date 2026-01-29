@@ -7,7 +7,6 @@ class EVAPrototype {
         this.sendBtn = document.getElementById('sendBtn');
         this.newChatBtn = document.getElementById('newChatBtn');
         this.promptBtns = document.querySelectorAll('.prompt-btn');
-        this.responseChips = document.getElementById('responseChips');
         
         this.init();
     }
