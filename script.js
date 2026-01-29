@@ -46,9 +46,6 @@ class EVAPrototype {
         const message = this.chatInput.value.trim();
         if (!message) return;
 
-        // Clear any existing response chips
-        this.hideResponseChips();
-
         // Add user message
         this.addMessage(message, 'user');
         this.chatInput.value = '';
@@ -56,12 +53,7 @@ class EVAPrototype {
         // Simulate EVA response after a short delay
         setTimeout(() => {
             const response = this.generateResponse(message);
-            this.addMessage(response.message, 'eva');
-            
-            // Show response chips if suggested
-            if (response.chips) {
-                this.showResponseChips(response.chips);
-            }
+            this.addMessage(response, 'eva');
         }, 1500);
     }
 
@@ -69,21 +61,13 @@ class EVAPrototype {
         const promptType = btn.dataset.prompt;
         const promptText = this.getPromptText(promptType);
         
-        // Clear any existing response chips
-        this.hideResponseChips();
-        
         // Add the prompt as a user message
         this.addMessage(promptText, 'user');
         
         // Generate appropriate response
         setTimeout(() => {
             const response = this.generatePromptResponse(promptType);
-            this.addMessage(response.message, 'eva');
-            
-            // Show response chips if suggested
-            if (response.chips) {
-                this.showResponseChips(response.chips);
-            }
+            this.addMessage(response, 'eva');
         }, 1500);
     }
 
@@ -91,9 +75,6 @@ class EVAPrototype {
         // Clear chat messages except the initial welcome
         const messages = this.chatContainer.querySelectorAll('.message');
         messages.forEach(message => message.remove());
-        
-        // Clear response chips
-        this.hideResponseChips();
         
         // Reset to initial state
         this.addMessage("Hello! I'm EVA, your Electric Vehicle Assistant. I can help you troubleshoot EV charger issues. I see we're working with customer Michael Rodriguez who has an error code E-204. How can I assist you today?", 'eva', true);
@@ -124,18 +105,27 @@ class EVAPrototype {
         const message = userMessage.toLowerCase();
         
         if (message.includes('error') || message.includes('e-204')) {
-            return {
-                message: "I see you're dealing with error code E-204. This typically indicates a ground fault circuit interrupter (GFCI) trip. Let's troubleshoot this step by step:<br><br>1. First, check the breaker panel - is the GFCI breaker tripped?<br>2. Look at the charger's LED halo - it should be red, confirming the error<br>3. Try resetting the GFCI breaker by switching it off and back on<br><br>Would you like me to walk you through checking the breaker panel?",
-                chips: [
-                    { text: "Yes, walk me through it", value: "yes_guide_breaker" },
-                    { text: "No, they already checked", value: "no_already_checked", secondary: true }
-                ]
-            };
+            return "I see you're dealing with error code E-204. This typically indicates a ground fault circuit interrupter (GFCI) trip. Let's troubleshoot this step by step:<br><br>1. First, check the breaker panel - is the GFCI breaker tripped?<br>2. Look at the charger's LED halo - it should be red, confirming the error<br>3. Try resetting the GFCI breaker by switching it off and back on<br><br>Would you like me to walk you through checking the breaker panel?";
         }
         
-        return {
-            message: "I understand you need help with this EV charger issue. Can you provide more details about what the customer is experiencing? I'm here to help troubleshoot any charging, billing, or connectivity problems."
-        };
+        if (message.includes('breaker') || message.includes('panel')) {
+            return "Great! Let's check the breaker panel. Please have the customer locate their electrical panel and look for the GFCI breaker labeled for the EV charger. It's usually a breaker with a 'test' and 'reset' button. Can you see the breaker panel reference image on the left? The breaker should look similar to that.";
+        }
+        
+        if (message.includes('billing') || message.includes('bill')) {
+            return "I can help with billing questions. For EV charger billing, the charges appear on the customer's regular FPL bill under 'Electric Vehicle Charging.' The rate depends on their time-of-use plan. Would you like me to explain the different billing rates or help troubleshoot a specific billing issue?";
+        }
+        
+        if (message.includes('wifi') || message.includes('connectivity')) {
+            return "For WiFi connectivity issues, let's check these steps:<br><br>1. Verify the customer's WiFi network is active<br>2. Check if the charger is within range of their router<br>3. The charger may need to be reconnected to the network<br><br>I can provide the steps for reconnecting the charger to their home WiFi. Would that be helpful?";
+        }
+
+        if (message.includes('past') || message.includes('history')) {
+            return "I can see the customer's previous interactions. Michael Rodriguez has called twice in the past month:<br><br>• Jan 15: WiFi connectivity issue (resolved)<br>• Dec 28: Questions about time-of-use billing<br><br>This appears to be a new issue with the E-204 error code. Should I pull up more details from his previous cases?";
+        }
+        
+        // Default response
+        return "I understand you need help with this EV charger issue. Can you provide more details about what the customer is experiencing? I'm here to help troubleshoot any charging, billing, or connectivity problems.";
     }
 
     getPromptText(promptType) {
@@ -153,88 +143,20 @@ class EVAPrototype {
 
     generatePromptResponse(promptType) {
         const responses = {
-            'error-codes': {
-                message: "Error code E-204 indicates a Ground Fault Circuit Interrupter (GFCI) trip. This is a safety feature that protects against electrical faults.<br><br>Resolution steps:<br>1. Check the electrical panel for a tripped GFCI breaker<br>2. Reset the GFCI breaker<br>3. Test the charger again<br><br>Should I walk you through finding the GFCI breaker?",
-                chips: [
-                    { text: "Yes, guide me", value: "guide_gfci" },
-                    { text: "Already found it", value: "found_gfci", secondary: true }
-                ]
-            }
-        };
-        
-        return responses[promptType] || { 
-            message: "I'll help you with that. Can you provide more specific details about the issue?"
-        };
-    }
-
-    showResponseChips(chips) {
-        if (!chips || chips.length === 0) return;
-        
-        this.responseChips.innerHTML = `
-            <h5>Quick Responses:</h5>
-            <div class="chips-container">
-                ${chips.map(chip => `
-                    <button class="response-chip ${chip.secondary ? 'secondary' : ''}" 
-                            data-value="${chip.value}"
-                            onclick="evaPrototype.handleChipClick('${chip.value}', '${chip.text}')">
-                        ${chip.text}
-                    </button>
-                `).join('')}
-            </div>
-        `;
-        
-        this.responseChips.classList.add('show');
-    }
-
-    hideResponseChips() {
-        this.responseChips.classList.remove('show');
-        setTimeout(() => {
-            this.responseChips.innerHTML = '';
-        }, 300);
-    }
-
-    handleChipClick(value, text) {
-        // Hide chips first
-        this.hideResponseChips();
-        
-        // Add the chip response as a user message
-        this.addMessage(text, 'user');
-        
-        // Generate appropriate response based on the chip value
-        setTimeout(() => {
-            const response = this.generateChipResponse(value);
-            this.addMessage(response.message, 'eva');
+            'charger-not-working': "Let's troubleshoot the non-working charger. First, I need to know:<br><br>1. Are there any LED indicators showing on the charger?<br>2. Is the customer getting any error messages?<br>3. When did it last work properly?<br><br>I see we have an E-204 error code displayed. This suggests a GFCI trip - let's start with checking the electrical panel.",
             
-            if (response.chips) {
-                this.showResponseChips(response.chips);
-            }
-        }, 1500);
-    }
-
-    generateChipResponse(chipValue) {
-        const responses = {
-            'yes_guide_breaker': {
-                message: "Perfect! Let's check the breaker panel step by step:<br><br>1. Have the customer locate their electrical panel<br>2. Look for the GFCI breaker labeled for the EV charger<br>3. Check if the breaker is in the 'tripped' position (middle position)<br>4. If tripped, switch it fully OFF, then back ON<br><br>Is the customer able to locate the GFCI breaker?",
-                chips: [
-                    { text: "Yes, found it", value: "found_breaker" },
-                    { text: "No, can't find it", value: "cant_find_breaker", secondary: true }
-                ]
-            },
-            'found_breaker': {
-                message: "Excellent! Now let's reset the GFCI breaker:<br><br>1. Switch the breaker fully to the OFF position<br>2. Wait 5 seconds<br>3. Switch it back to the ON position<br>4. Check the charger - the LED should change from red to green<br><br>What's happening with the charger now?",
-                chips: [
-                    { text: "LED is now green", value: "led_green_success" },
-                    { text: "Still red", value: "still_red", secondary: true }
-                ]
-            },
-            'led_green_success': {
-                message: "Perfect! ✅ The E-204 error has been resolved. The green LED indicates the charger is ready to use. The customer can now plug in their vehicle and charging should begin normally.<br><br>Is there anything else I can help you with regarding this customer's EV charger?"
-            }
+            'firmware-update': "For firmware updates, here's the process:<br><br>1. The charger should automatically update when connected to WiFi<br>2. Manual updates can be initiated through the FPL app<br>3. Updates typically take 10-15 minutes<br><br>Is the customer having trouble with an automatic update, or do they need to manually initiate one?",
+            
+            'billing-questions': "I can help explain EV charging billing. The charges appear under 'Electric Vehicle Charging' on their FPL bill. Key points:<br><br>• Time-of-use rates apply (cheaper during off-peak hours)<br>• Peak hours: 12-9 PM weekdays<br>• Off-peak hours: All other times<br><br>What specific billing question do they have?",
+            
+            'wifi-connectivity': "For WiFi connectivity, let's troubleshoot:<br><br>1. Check if their home WiFi is working properly<br>2. Verify the charger is within WiFi range<br>3. The charger may need network reconfiguration<br><br>Is the customer seeing any specific error messages about connectivity?",
+            
+            'error-codes': "Error code E-204 indicates a Ground Fault Circuit Interrupter (GFCI) trip. This is a safety feature that protects against electrical faults.<br><br>Resolution steps:<br>1. Check the electrical panel for a tripped GFCI breaker<br>2. Reset the GFCI breaker<br>3. Test the charger again<br><br>Should I walk you through finding the GFCI breaker?",
+            
+            'past-interactions': "Here are Michael Rodriguez's previous interactions:<br><br>• <strong>Jan 15, 2026:</strong> WiFi connectivity resolved - charger reconnected to network<br>• <strong>Dec 28, 2025:</strong> Billing inquiry about time-of-use rates<br><br>Both previous issues were resolved successfully. This E-204 error appears to be a new issue. Would you like details from either previous case?"
         };
         
-        return responses[chipValue] || {
-            message: "Thank you for that information. Let me help you with the next steps based on your response."
-        };
+        return responses[promptType] || "I'll help you with that. Can you provide more specific details about the issue?";
     }
 
     scrollToBottom() {
@@ -248,5 +170,25 @@ class EVAPrototype {
 
 // Initialize the prototype when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    window.evaPrototype = new EVAPrototype();
+    new EVAPrototype();
+});
+
+// Add some visual feedback for interactions
+document.addEventListener('DOMContentLoaded', () => {
+    // Add loading animation when sending messages
+    const originalSend = EVAPrototype.prototype.handleSendMessage;
+    EVAPrototype.prototype.handleSendMessage = function() {
+        const sendBtn = this.sendBtn;
+        const originalText = sendBtn.innerHTML;
+        
+        sendBtn.innerHTML = '<span>Sending...</span>';
+        sendBtn.disabled = true;
+        
+        originalSend.call(this);
+        
+        setTimeout(() => {
+            sendBtn.innerHTML = originalText;
+            sendBtn.disabled = false;
+        }, 1500);
+    };
 });
