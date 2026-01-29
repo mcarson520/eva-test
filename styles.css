@@ -364,6 +364,63 @@ body {
     color: var(--primary-blue);
 }
 
+.response-chips {
+    padding: 0 1.5rem;
+    margin-bottom: 0.5rem;
+    display: none; /* Hidden by default */
+}
+
+.response-chips.show {
+    display: block;
+}
+
+.response-chips h5 {
+    color: var(--gray-600);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.chips-container {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.response-chip {
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.response-chip:hover {
+    background: var(--primary-blue-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.response-chip.secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: 1px solid var(--gray-300);
+}
+
+.response-chip.secondary:hover {
+    background: var(--gray-200);
+    border-color: var(--gray-400);
+}
+
 .chat-input-area {
     padding: 1.5rem;
 }
