@@ -1,0 +1,26 @@
+{
+  "name": "eva-prototype",
+  "version": "1.0.0",
+  "description": "EVA Customer Service Assistant UI Prototype",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build process needed for static files'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/eva-prototype.git"
+  },
+  "keywords": [
+    "eva",
+    "customer-service",
+    "ai-assistant",
+    "prototype",
+    "ui"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}

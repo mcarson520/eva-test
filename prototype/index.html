@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVA - Customer Service Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="eva-logo">
+                    <h1>EVA</h1>
+                    <span class="subtitle">Electric Vehicle Assistant</span>
+                </div>
+                <div class="agent-status">
+                    <div class="status-indicator active"></div>
+                    <span class="agent-name">Agent: Sarah Johnson</span>
+                    <span class="eva-mode">EVA Mode Active</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Sidebar with Customer Info -->
+            <aside class="sidebar">
+                <div class="customer-info-panel">
+                    <h3>Customer Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Account #:</label>
+                            <span>FPL-789456123</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Name:</label>
+                            <span>Michael Rodriguez</span>
+                        </div>
+                        <div class="info-item">
+                            <label>EV Model:</label>
+                            <span>Tesla Model 3</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Charger Type:</label>
+                            <span>Level 2 - 240V</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Last Connected:</label>
+                            <span>Jan 28, 2026 11:45 PM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charger-status-panel">
+                    <h3>Charger Status</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <label>Current Status:</label>
+                            <span class="status error">Error Code: E-204</span>
+                        </div>
+                        <div class="status-item">
+                            <label>LED Indicator:</label>
+                            <div class="led-indicator">
+                                <div class="led red"></div>
+                                <span>Red (Error)</span>
+                            </div>
+                        </div>
+                        <div class="status-item">
+                            <label>Power Draw:</label>
+                            <span>0 kW</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual-aids-panel">
+                    <h3>Visual References</h3>
+                    <div class="visual-grid">
+                        <div class="visual-item">
+                            <img src="https://via.placeholder.com/120x80/4F46E5/white?text=Breaker+Panel" alt="Breaker Panel Reference">
+                            <span>Breaker Panel</span>
+                        </div>
+                        <div class="visual-item">
+                            <img src="https://via.placeholder.com/120x80/10B981/white?text=LED+Halo" alt="LED Halo Reference">
+                            <span>LED Indicators</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Chat Area -->
+            <main class="chat-area">
+                <div class="chat-header">
+                    <h2>EVA Assistant</h2>
+                    <button class="new-chat-btn" id="newChatBtn">
+                        <span class="btn-icon">+</span>
+                        Start New Chat
+                    </button>
+                </div>
+
+                <div class="chat-container" id="chatContainer">
+                    <div class="initial-message">
+                        <div class="eva-avatar">EVA</div>
+                        <div class="message-content">
+                            <p>Hello! I'm EVA, your Electric Vehicle Assistant. I can help you troubleshoot EV charger issues. I see we're working with customer Michael Rodriguez who has an error code E-204. How can I assist you today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="common-prompts">
+                    <h4>Common Issues</h4>
+                    <div class="prompts-grid">
+                        <button class="prompt-btn" data-prompt="charger-not-working">Charger Not Working</button>
+                        <button class="prompt-btn" data-prompt="firmware-update">Firmware Issues</button>
+                        <button class="prompt-btn" data-prompt="billing-questions">Billing Questions</button>
+                        <button class="prompt-btn" data-prompt="wifi-connectivity">WiFi Connectivity</button>
+                        <button class="prompt-btn" data-prompt="error-codes">Error Code Help</button>
+                        <button class="prompt-btn" data-prompt="past-interactions">View Past Cases</button>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="input-container">
+                        <input type="text" id="chatInput" placeholder="Type your message to EVA..." autocomplete="off">
+                        <button id="sendBtn" class="send-btn">
+                            <span>Send</span>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
