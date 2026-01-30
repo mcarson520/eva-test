@@ -285,6 +285,11 @@ body {
     align-items: flex-start;
 }
 
+.user-message {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
 .eva-avatar,
 .user-avatar {
     width: 2.5rem;
@@ -303,6 +308,11 @@ body {
     color: var(--white);
 }
 
+.initial-message .message-content,
+.eva-message .message-content {
+    border-radius: 0.25rem 0.75rem 0.75rem 0.75rem;
+}
+
 .user-avatar {
     background: var(--gray-200);
     color: var(--gray-700);
@@ -314,6 +324,7 @@ body {
     border-radius: 0.75rem;
     border: 1px solid var(--gray-200);
     flex: 1;
+    max-width: 70%;
 }
 
 .message-content p {
@@ -325,6 +336,16 @@ body {
     background: var(--primary-blue);
     color: var(--white);
     border-color: var(--primary-blue);
+    margin-left: auto;
+    border-radius: 0.75rem 0.75rem 0.25rem 0.75rem;
+    flex: none;
+    width: fit-content;
+    max-width: 70%;
+}
+
+.user-message .message-content p {
+    color: var(--white);
+    text-align: right;
 }
 
 .common-prompts {
